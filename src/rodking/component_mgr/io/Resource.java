@@ -2,6 +2,7 @@ package rodking.component_mgr.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public interface Resource extends InputStreamSource {
 	File getFile() throws IOException;
@@ -13,4 +14,6 @@ public interface Resource extends InputStreamSource {
 	String getDescription();
 	
 	boolean isReadable();
+
+	URL getURL();
 }
