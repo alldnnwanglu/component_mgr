@@ -31,9 +31,10 @@ public class TestClassLoader {
 
 		Class<?> c = loader.loadClass("rodking.util.TestClassLoader");
 		if (c.isAnnotationPresent(Component.class)) {
+
 			System.out.println("rodking");
 		}
-		// c.test("rodking","test","hha");
+
 	}
 
 	public void test(String... name) {

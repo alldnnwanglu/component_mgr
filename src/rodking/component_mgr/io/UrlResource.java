@@ -10,11 +10,11 @@ public class UrlResource extends AbstractResource {
 	private final URL url;
 	private final URL uri;
 	private final File f;
+	
 	// private final URL cleanedUrl;
 
 	public UrlResource(URL url) {
 		this.url = url;
-		// this.cleanedUrl = getCleanedUrl(this.url, url.toString());
 		this.uri = null;
 		f = new File(url.getFile());
 	}
@@ -27,7 +27,7 @@ public class UrlResource extends AbstractResource {
 	@Override
 	public String getFilename() {
 		// TODO Auto-generated method stub
-		return null;
+		return f.getName();
 	}
 
 	@Override

@@ -15,5 +15,5 @@ public interface Resource extends InputStreamSource {
 	
 	boolean isReadable();
 
-	URL getURL();
+	URL getURL() throws IOException ;
 }
