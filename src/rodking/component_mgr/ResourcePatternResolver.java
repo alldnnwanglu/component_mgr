@@ -32,23 +32,24 @@ public class ResourcePatternResolver implements ResourceLoader {
 	}
 
 	/**
-	 * ²éÕÒÂ·¾¶Æ¥Åä×ÊÔ´
+	 * æ‰¾åˆ°åŒ¹é…è·¯å¾„ä¸‹çš„Resource
 	 * 
 	 * @param locationPattern
 	 * @return
 	 * @throws IOException
 	 */
-	protected Resource[] findPathMatchingResources(String locationPattern) throws IOException {
+	protected Resource[] findPathMatchingResources(String locationPattern)
+			throws IOException {
 		String rootDirPath = locationPattern;
 		Resource[] rootDirResources = getResources(rootDirPath);
 		Set<Resource> result = new LinkedHashSet<Resource>(16);
 		for (Resource rootDirResource : rootDirResources) {
 			rootDirResource = resolveRootDirResource(rootDirResource);
-			// Èç¹û jar
 			if (isJarResource(rootDirResource)) {
-				// jar resource ¼ÓÈëµ½ÁĞ±íÖĞ
-				result.addAll(doFindPathMatchingJarResources(rootDirResource, ""));// null);
-			} else if (rootDirResource.getURL().getProtocol().startsWith(ResourceUtils.URL_PROTOCOL_VFS)) {
+				result.addAll(doFindPathMatchingJarResources(rootDirResource,
+						""));// null);
+			} else if (rootDirResource.getURL().getProtocol()
+					.startsWith(ResourceUtils.URL_PROTOCOL_VFS)) {
 				result.addAll(null);
 			} else
 				result.addAll(null);
@@ -59,13 +60,13 @@ public class ResourcePatternResolver implements ResourceLoader {
 	}
 
 	/**
-	 * ÕÒµ½Â·¾¶Æ¥ÅäµÄ jar
 	 * 
 	 * @param rootDirResource
 	 * @param string
 	 * @return
 	 */
-	private Set<Resource> doFindPathMatchingJarResources(Resource rootDirResource, String string) {
+	private Set<Resource> doFindPathMatchingJarResources(
+			Resource rootDirResource, String string) {
 		// TODO Auto-generated method stub
 
 		return null;
@@ -76,12 +77,13 @@ public class ResourcePatternResolver implements ResourceLoader {
 	}
 
 	/**
-	 * ¼ÓÔØ¸ùÄ¿Â¼×ÊÔ´
+	 * ï¿½ï¿½ï¿½Ø¸ï¿½Ä¿Â¼ï¿½ï¿½Ô´
 	 * 
 	 * @param rootDirResource
 	 * @return
 	 */
-	private Resource resolveRootDirResource(Resource original) throws IOException {
+	private Resource resolveRootDirResource(Resource original)
+			throws IOException {
 		// TODO Auto-generated method stub
 		URL url = original.getURL();
 		if (url.getProtocol().startsWith("bundle")) {
@@ -91,15 +93,13 @@ public class ResourcePatternResolver implements ResourceLoader {
 	}
 
 	/**
-	 * ²éÕÒÂ·¾¶ÏÂÃæµÄËùÓĞ×ÊÔ´
+	 * åŠ è½½æ‰€æœ‰çš„Resource
 	 * 
 	 * @param path
-	 *            Â·¾¶
 	 * @return
 	 * @throws IOException
 	 */
 	protected Resource[] findAllResource(String path) throws IOException {
-		// Í¨¹ıÀà¼ÓÔØÆ÷»î¶¯ Â·¾¶ µÄurl
 		Enumeration<URL> resourceUrls = classLoader.getResources(path);
 		Set<Resource> result = new LinkedHashSet<Resource>();
 		while (resourceUrls.hasMoreElements()) {
@@ -109,7 +109,8 @@ public class ResourcePatternResolver implements ResourceLoader {
 				File[] fs = resource.getFile().listFiles();
 				for (File f : fs) {
 					if (f.isDirectory()) {
-						Resource[] res = findAllResource(path + f.getName() + "/");
+						Resource[] res = findAllResource(path + f.getName()
+								+ "/");
 						for (Resource re : res) {
 							result.add(re);
 						}
@@ -134,7 +135,7 @@ public class ResourcePatternResolver implements ResourceLoader {
 				GenericBeanDefinition beanDef = new GenericBeanDefinition();
 				beanDef.setBeanClassName(getClassName(resource, path));
 				Class<?> beanClass = beanDef.initBean(classLoader);
-				// Èç¹û¸ÃÀàÊÇ ×é¼ş±êÇ©£¬¾Í°ÑËü·Åµ½Àà application ÈİÆ÷ÖĞ
+				// å¦‚æœæ˜¯ç»„ä»¶æ ‡ç­¾å°±åŠ è½½bean åˆ°å®¹å™¨ä¸­
 				if (beanClass.isAnnotationPresent(Component.class)) {
 					beanDef.onInit();
 					ApplicationContext.getInstance().addBean(beanDef);
@@ -152,7 +153,7 @@ public class ResourcePatternResolver implements ResourceLoader {
 	}
 
 	/**
-	 * ÊÇ·ñÊÇºòÑ¡×é¼ş
+	 * ï¿½Ç·ï¿½ï¿½Çºï¿½Ñ¡ï¿½ï¿½ï¿½
 	 * 
 	 * @param metadataReader
 	 * @return
@@ -161,9 +162,11 @@ public class ResourcePatternResolver implements ResourceLoader {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	private boolean isCandidateComponent(MetadataReader metadataReader, String path)
-			throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-		String p = metadataReader.getResource().getFile().getPath().replace("\\", "/");
+	private boolean isCandidateComponent(MetadataReader metadataReader,
+			String path) throws IOException, ClassNotFoundException,
+			InstantiationException, IllegalAccessException {
+		String p = metadataReader.getResource().getFile().getPath()
+				.replace("\\", "/");
 		p = p.substring(p.indexOf(path), p.length());
 		p = p.substring(0, p.lastIndexOf(".class")).replace("/", ".");
 		Class<?> t = classLoader.loadClass(p);

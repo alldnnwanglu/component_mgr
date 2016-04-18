@@ -8,7 +8,7 @@ package rodking.component_mgr;
 public interface ResourceLoader {
 	/**
 	 * 
-	 * @return 返回一个不为空的类加载器
+	 * @return 娲诲姩绫诲姞杞藉櫒
 	 */
 	ClassLoader getClassLoader();
 }

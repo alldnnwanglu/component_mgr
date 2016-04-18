@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * use as {@ org.springframework.stereotype.Component}
- * Õâ¸ö×é¼ş×¢ÊÍÊÇÓÃÀ´Ìæ´ú springframeworkÖĞµÄComponent
+ * è‡ªå®šä¹‰ç»„ä»¶æ ‡ç­¾ springframework. Component
  * 
  * @author rodking
  * @since 0.1

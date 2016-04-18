@@ -1,15 +1,18 @@
 package rodking.component_mgr.config;
 
 /**
+ * bean å®šä¹‰
  * @author rodking
+ * @see 0.1
  * 
  */
 public interface BeanDefinition {
-	/** bean get µÄÀàÃû */
+	/** bean get bean ç±»å */
 	String getBeanClassName();
 
-	/** bean set µÄÀàÃû */
+	/** bean set bean ç±»å */
 	void setBeanClassName(String beanClassName);
-
+	
+	/** bean set bean æ–‡ä»¶å */
 	String getSimpleName();
 }

@@ -1,20 +1,20 @@
 package rodking.component_mgr.config;
 
 /**
- * 一般bean定义
+ * 鏅�歜ean瀹氫箟
  * 
  * @author rodking
  * @des 0.1
  */
 public class GenericBeanDefinition implements BeanDefinition {
 
-	/** 用来加载类名称，包含包路径 */
+	/** bean 绫诲悕 */
 	private String beanClassName;
-	/** 使用类加载器加载后,包含的类 */
+	/** 鐢╟lassLoader鍔犺浇鐨勭被 */
 	private volatile Object beanClass;
 
 	private Class<?> loadClass;
-	/** 类名称 */
+	/** 鏂囦欢鍚嶇О */
 	private String simpleName;
 
 	@Override
@@ -34,7 +34,7 @@ public class GenericBeanDefinition implements BeanDefinition {
 	}
 
 	/**
-	 * 初始化bean
+	 * 鍒濆鍖朾ean
 	 * 
 	 * @param classLoader
 	 * @return
@@ -42,7 +42,8 @@ public class GenericBeanDefinition implements BeanDefinition {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	public Class<?> initBean(ClassLoader classLoader) throws ClassNotFoundException {
+	public Class<?> initBean(ClassLoader classLoader)
+			throws ClassNotFoundException {
 		String className = getBeanClassName();
 		if (className == null) {
 			return null;
@@ -54,7 +55,7 @@ public class GenericBeanDefinition implements BeanDefinition {
 	}
 
 	/**
-	 * 加载 bean
+	 * 鍔犺浇 bean
 	 * 
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException

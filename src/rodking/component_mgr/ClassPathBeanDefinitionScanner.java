@@ -13,7 +13,6 @@ public class ClassPathBeanDefinitionScanner {
 	public void doScan(String path) throws IOException {
 		path = "rodking/util/";
 
-		// 获取所有的 resource;
 		resourcePR.getResources(path);
 
 	}

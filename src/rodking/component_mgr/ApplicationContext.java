@@ -5,12 +5,17 @@ import java.util.Map;
 
 import rodking.component_mgr.config.GenericBeanDefinition;
 
+/**
+ * 容器启动入口
+ * @author rodking
+ * @SEE	0.1
+ */
 public class ApplicationContext {
 	private Map<String, GenericBeanDefinition> contexts = new HashMap<String, GenericBeanDefinition>();
 	private static ApplicationContext instance = new ApplicationContext();
 
 	/**
-	 * � app ����
+	 * app content 容器单例对象
 	 * 
 	 * @return
 	 */
