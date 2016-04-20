@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
-
+import org.apache.log4j.Logger;
 import rodking.component_mgr.config.GenericBeanDefinition;
 
 /**
@@ -16,6 +16,7 @@ import rodking.component_mgr.config.GenericBeanDefinition;
  * @SEE 0.1
  */
 public class ApplicationContext {
+	final Logger log = Logger.getLogger(ApplicationContext.class);
 	private Map<String, GenericBeanDefinition> contexts = new HashMap<String, GenericBeanDefinition>();
 	private static ApplicationContext instance = new ApplicationContext();
 
@@ -34,15 +35,18 @@ public class ApplicationContext {
 		if (contexts.containsKey(bean.getSimpleName()))
 			contexts.remove(bean.getSimpleName());
 		contexts.put(bean.getSimpleName(), bean);
+		log.info("add bean [" + bean.getBeanClassName() + "]");
 	}
 
 	public void init() throws Exception {
+		log.info("start load bean in appcontext ...");
 		ClassPathBeanDefinitionScanner t = new ClassPathBeanDefinitionScanner();
 		// TODO 每个包单点加测试
 		t.doScan("rodking/util/;rodking/server/");
-		// TODO 遍历说有包
+		// TODO 遍历所有包
 		// t.doScan("rodking/");
 
+		log.info("start IOC all fields...");
 		for (GenericBeanDefinition bean : contexts.values()) {
 			Field[] fields = bean.getDeclaredFields();
 
@@ -51,13 +55,16 @@ public class ApplicationContext {
 				// 如果有@Resource 标签的字段,就不实例化好的对象注册进去
 				if (field.isAnnotationPresent(Resource.class)) {
 					GenericBeanDefinition b = contexts.get(fieldStr);
+					boolean isAccess = field.isAccessible();
 					field.setAccessible(true);
 					field.set(bean.getBeanClass(), b.getBeanClass());
-					field.setAccessible(false);
+					field.setAccessible(isAccess);
 				}
 			}
 
 		}
+		log.info("end IOC all fields...");
+		log.info("end load beans...");
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package rodking.component_mgr;
+package rodking.component_mgr.annotate;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -17,6 +17,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Component {
+public @interface ProtoAction {
 	String value() default "";
 }

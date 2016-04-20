@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import rodking.component_mgr.Component;
+import rodking.component_mgr.annotate.Component;
 
 public class TestClassLoader {
 	public static void main(String[] args)

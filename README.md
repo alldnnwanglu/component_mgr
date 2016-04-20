@@ -13,3 +13,29 @@ use like spring frame work ... simple .&amp; easy IOC
   ------------------------------<br/>
   1. applicationContext 提供 getBeansOfType(Class<?> type)<br/>
   2. applicationContext 提供 getBeansWithAnnotation<br/>
+  
+  
+
+###使用的时候先注册要遍历的位置 <br/>
+etc.  <br/>
+1.用 ';' 分割<br/>
+// TODO 每个包遍历 <br/>
+t.doScan("rodking/util/;rodking/server/");<br/>
+// TODO 遍历所有包<br/>
+// t.doScan("rodking/");<br/>
+
+2.添加需要加载的主键<br/>
+// 添加 Component<br/>
+includeFilters.add(new AnnotationTypeFilter(Component.class));<br/>
+// 添加 DAO<br/>
+includeFilters.add(new AnnotationTypeFilter(DAO.class));<br/>
+// 添加 Bean<br/>
+includeFilters.add(new AnnotationTypeFilter(Bean.class));<br/>
+// 添加ProtoAction<br/>
+includeFilters.add(new AnnotationTypeFilter(ProtoAction.class));<br/>
+
+3.初始化容器<br/>
+ApplicationContext.getInstance().init();<br/>
+
+4.使用容器<br/>
+
