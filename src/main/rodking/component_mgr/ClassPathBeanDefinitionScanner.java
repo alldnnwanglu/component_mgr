@@ -23,6 +23,12 @@ public class ClassPathBeanDefinitionScanner {
 		includeFilters.add(new AnnotationTypeFilter(Component.class));
 	}
 
+	/**
+	 * 如果是需要预先加载到容器中的对象
+	 * @param clazz
+	 * @return
+	 * @throws IOException
+	 */
 	protected boolean isComponentBean(Class<?> clazz) throws IOException {
 		for (AnnotationTypeFilter tf : includeFilters) {
 			if (clazz.isAnnotationPresent(tf.getAnnotation()))
@@ -43,7 +49,6 @@ public class ClassPathBeanDefinitionScanner {
 					GenericBeanDefinition beanDef = new GenericBeanDefinition(className, classLoader);
 
 					if (isComponentBean(beanDef.getLoadClass())) {
-						System.out.println("rodking :: " + beanDef.getBeanClassName());
 						beanDef.setBeanClass(beanDef.getLoadClass().newInstance());
 						ApplicationContext.getInstance().addBean(beanDef);
 					}
@@ -58,12 +63,12 @@ public class ClassPathBeanDefinitionScanner {
 	}
 
 	public void doScan(String path) throws IOException {
-		String basePackage = "rodking/util/";
+		String[] paths = path.split(";");
 
-		resourcePR.getResources(path);
-
-		Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
-
+		for (String p : paths) {
+			resourcePR.getResources(p);
+			Set<BeanDefinition> candidates = findCandidateComponents(p);
+		}
 	}
 
 	private String getClassName(Resource res, String path) throws IOException {

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import rodking.util.JaveType;
+
 public class Test {
 	static final String Path = "E:/javaPorject/test-server-project/SQL.txt";
 	/**

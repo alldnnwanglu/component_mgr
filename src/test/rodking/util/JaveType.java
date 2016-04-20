@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import rodking.component_mgr.Component;
 
 @Component
-public class JaveType {
+public class JaveType extends TestManager{
 
 	@Resource
 	TestManager tManager;
