@@ -44,7 +44,7 @@ public class ApplicationContext {
 		log.info("start load bean in appcontext ...");
 		ClassPathBeanDefinitionScanner t = new ClassPathBeanDefinitionScanner();
 		// TODO 每个包单点加测试
-		t.doScan("rodking/util/;rodking/server/");
+		t.doScan("rodking/util/;rodking/server/;rodking/core/");
 		// TODO 遍历所有包
 		// t.doScan("rodking/");
 
@@ -70,7 +70,7 @@ public class ApplicationContext {
 	}
 
 	/**
-	 * 获得bean
+	 * 通过类名获得 bean
 	 * 
 	 * @param type
 	 * @return
@@ -84,7 +84,7 @@ public class ApplicationContext {
 	}
 
 	/**
-	 * 获得继承了 type 的 beans
+	 * 通过父类得到所有继承该父类的标签类
 	 * 
 	 * @param type
 	 * @return
