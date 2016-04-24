@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
+
 import rodking.component_mgr.config.GenericBeanDefinition;
 
 /**
@@ -87,6 +89,7 @@ public class ApplicationContext {
 	 * @param type
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public <T> Map<String, T> getBeansOfType(Class<T> type) throws Exception {
 		Map<String, T> map = new HashMap<String, T>();
 		for (GenericBeanDefinition bean : contexts.values()) {

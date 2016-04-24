@@ -3,7 +3,6 @@ package rodking.component_mgr;
 import rodking.component_mgr.ApplicationContext;
 import rodking.component_mgr.annotate.Component;
 import rodking.util.JaveType;
-import rodking.util.TestExt;
 import rodking.util.TestInter;
 
 public class TestComponent {

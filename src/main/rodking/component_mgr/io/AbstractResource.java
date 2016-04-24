@@ -2,7 +2,6 @@ package rodking.component_mgr.io;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
 public abstract class AbstractResource implements Resource {

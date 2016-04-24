@@ -5,6 +5,7 @@ import rodking.component_mgr.util.ClassUtils;
 
 public class DefaultResourceLoader implements ResourceLoader {
 
+	@SuppressWarnings("unused")
 	private ClassLoader classLoader;
 
 	public DefaultResourceLoader() {

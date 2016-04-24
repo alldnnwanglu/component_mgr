@@ -82,7 +82,7 @@ public class ClassPathBeanDefinitionScanner {
 		for (String p : paths) {
 			log.info("start scan path " + p);
 			resourcePR.getResources(p);
-			Set<BeanDefinition> candidates = findCandidateComponents(p);
+			findCandidateComponents(p);
 			log.info("end scan path " + p);
 		}
 	}
