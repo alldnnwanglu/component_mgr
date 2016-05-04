@@ -12,10 +12,10 @@ import org.apache.log4j.Logger;
 import rodking.component_mgr.config.GenericBeanDefinition;
 
 /**
- * 容器启动入口
- * 
+ * 应用容器
+ * <p>
  * @author rodking
- * @SEE 0.1
+ * @version 1.0
  */
 public class ApplicationContext {
 	final Logger log = Logger.getLogger(ApplicationContext.class);
@@ -33,6 +33,13 @@ public class ApplicationContext {
 		return instance;
 	}
 
+	/**
+	 * 向容器中添加  bean
+	 * <p>
+	 * 如果 bean 在容器中已经存在,就会覆盖以前有的bean
+	 * 
+	 * @param bean 将要添加的bean
+	 */
 	public void addBean(GenericBeanDefinition bean) {
 		if (contexts.containsKey(bean.getSimpleName()))
 			contexts.remove(bean.getSimpleName());
@@ -40,9 +47,12 @@ public class ApplicationContext {
 		log.info("add bean [" + bean.getBeanClassName() + "]");
 	}
 
+	/**
+	 * @throws Exception 
+	 */
 	public void init() throws Exception {
 		log.info("start load bean in appcontext ...");
-		ClassPathBeanDefinitionScanner t = new ClassPathBeanDefinitionScanner();
+		ClassPathBeanScanner t = new ClassPathBeanScanner();
 		// TODO 每个包单点加测试
 		t.doScan("rodking/util/;rodking/server/;rodking/core/");
 		// TODO 遍历所有包
@@ -72,7 +82,7 @@ public class ApplicationContext {
 	/**
 	 * 通过类名获得 bean
 	 * 
-	 * @param type
+	 * @param type 类型
 	 * @return
 	 */
 	public Object getBeanOfType(Class<?> type) {
@@ -84,17 +94,17 @@ public class ApplicationContext {
 	}
 
 	/**
-	 * 通过父类得到所有继承该父类的标签类
+	 * 通过父类得到所有继承或者实现该父类接口的标签类
 	 * 
-	 * @param type
+	 * @param fatherType 父类类型  
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> Map<String, T> getBeansOfType(Class<T> type) throws Exception {
+	public <T> Map<String, T> getBeansOfType(Class<T> fatherType) throws Exception {
 		Map<String, T> map = new HashMap<String, T>();
 		for (GenericBeanDefinition bean : contexts.values()) {
 			// 判断 bean 是否继承了type
-			if (type.isAssignableFrom(bean.getLoadClass())) {
+			if (fatherType.isAssignableFrom(bean.getLoadClass())) {
 				map.put(bean.getSimpleName(), (T) bean.getBeanClass());
 			}
 		}
@@ -102,9 +112,9 @@ public class ApplicationContext {
 	}
 
 	/**
-	 * 获得所有带 annotationType 注释的 beans
+	 * 获得所有带  annotationType 注释的 beans
 	 * 
-	 * @param annotationType
+	 * @param annotationType 注释类型
 	 * @return
 	 */
 	public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {

@@ -4,7 +4,8 @@ import java.lang.annotation.Annotation;
 
 /**
  * 注释过滤器
- *
+ * @author rodking
+ * @version 1.2
  */
 public class AnnotationTypeFilter implements TypeFilter {
 	private final Class<? extends Annotation> annotationType;

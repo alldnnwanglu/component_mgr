@@ -1,6 +1,11 @@
 package rodking.component_mgr.util;
 
 public class ClassUtils {
+	
+	/**
+	 * 获得并创建默认的类加载器
+	 * @return
+	 */
 	public static ClassLoader getDefaultClassLoader() {
 		ClassLoader cl = null;
 		try {
@@ -11,9 +16,5 @@ public class ClassUtils {
 		if (cl == null) // if is null use default
 			cl = ClassUtils.class.getClassLoader();
 		return cl;
-	}
-
-	public static String convertResourcePathToClassName(String resourcePath) {
-		return resourcePath.replace('/', '.');
 	}
 }

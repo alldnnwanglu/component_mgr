@@ -3,6 +3,12 @@ package rodking.component_mgr;
 import rodking.component_mgr.io.Resource;
 import rodking.component_mgr.util.ClassUtils;
 
+/**
+ * 默认的资源装载器
+ * 
+ * @author rodking
+ * @version 1.0
+ */
 public class DefaultResourceLoader implements ResourceLoader {
 
 	@SuppressWarnings("unused")

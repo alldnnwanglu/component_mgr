@@ -26,6 +26,6 @@ public class UrlResource extends AbstractResource {
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
-		return null;
+		return getFilename();
 	}
 }

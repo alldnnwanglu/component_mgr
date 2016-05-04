@@ -12,7 +12,12 @@ import rodking.component_mgr.io.Resource;
 import rodking.component_mgr.io.UrlResource;
 import rodking.component_mgr.util.ClassUtils;
 
-public class ResourcePatternResolver implements ResourceLoader {
+/**
+ * 类资源装载器
+ * @author rodking
+ * @version 1.0
+ */
+public class ClassRecourceLoader implements ResourceLoader {
 
 	public final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 
@@ -45,7 +50,6 @@ public class ResourcePatternResolver implements ResourceLoader {
 						}
 
 					} else
-						//result.add(new UrlResource(f.to.toURL()));
 						result.add(new UrlResource(f.toURI()));
 				}
 			} else

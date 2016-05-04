@@ -51,19 +51,35 @@ public class GenericBeanDefinition implements BeanDefinition {
 		return simpleName;
 	}
 
+	/**
+	 * classloader 加载的类,没有实例化
+	 * @return
+	 */
 	public Class<?> getLoadClass() {
 		return this.loadClass;
 	}
 
+	/**
+	 * 获得已经初始化的 bean
+	 * @return
+	 */
 	public Object getBeanClass() {
 		return beanClass;
 	}
 	
+	/**
+	 * classloader 加载的类 的公有注释
+	 * @return
+	 */
 	public Annotation[] getDeclaredAnnotations()
 	{
 		return loadClass.getDeclaredAnnotations();
 	}
 	
+	/**
+	 * classloader 加载的类 的公有的方法
+	 * @return
+	 */
 	public Field[] getDeclaredFields()
 	{
 		return loadClass.getDeclaredFields();
