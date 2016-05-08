@@ -54,10 +54,9 @@ public class ApplicationContext {
 		log.info("start load bean in appcontext ...");
 		ClassPathBeanScanner t = new ClassPathBeanScanner();
 		// TODO 每个包单点加测试
-		t.doScan("rodking/util/;rodking/server/;rodking/core/");
+		t.doScan("rodking/util/;rodking/server/;rodking/core/;rodking/logic/;rodking/config/");
 		// TODO 遍历所有包
 		// t.doScan("rodking/");
-
 		log.info("start IOC all fields...");
 		for (GenericBeanDefinition bean : contexts.values()) {
 			Field[] fields = bean.getDeclaredFields();

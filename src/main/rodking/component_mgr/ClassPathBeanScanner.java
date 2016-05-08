@@ -3,6 +3,7 @@ package rodking.component_mgr;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -44,22 +45,9 @@ public class ClassPathBeanScanner {
 		includeFilters.add(new AnnotationTypeFilter(ProtoAction.class));
 	}
 
-	/**
-	 * 如果是需要预先加载到容器中的对象
-	 * 
-	 * @param clazz
-	 * @return
-	 * @throws IOException
-	 */
-	protected boolean isComponentBean(Class<?> clazz) throws IOException {
-		for (AnnotationTypeFilter tf : includeFilters) {
-			if (clazz.isAnnotationPresent(tf.getAnnotation()))
-				return true;
-		}
-		return false;
-	}
 
 	/**
+	 * init 初始化包<br>
 	 * 遍历 basePackage 下的候选bean,
 	 * 并把带过滤标签的bean创建好放到 容器中.
 	 * @param basePackage
@@ -74,11 +62,8 @@ public class ClassPathBeanScanner {
 					String className = getClassName(resource, basePackage);
 					ClassLoader classLoader = this.resourcePR.getClassLoader();
 					GenericBeanDefinition beanDef = new GenericBeanDefinition(className, classLoader);
-
-					if (isComponentBean(beanDef.getLoadClass())) {
-						beanDef.setBeanClass(beanDef.getLoadClass().newInstance());
-						ApplicationContext.getInstance().addBean(beanDef);
-					}
+					
+					addCandidateComponents(beanDef);
 
 				} catch (Exception e) {
 
@@ -89,17 +74,48 @@ public class ClassPathBeanScanner {
 	}
 
 	/**
+	 * add 添加候选对象<br>
+	 * 把不同类型的bean 放到不同的分类中,
+	 * 以便以后按照分类的优先级加载
+	 * @param beanDef
+	 */
+	private void addCandidateComponents(GenericBeanDefinition beanDef) {
+		Class<?> clazz = beanDef.getLoadClass();
+		for (AnnotationTypeFilter tf : includeFilters) {
+			if (clazz.isAnnotationPresent(tf.getAnnotation()))
+				tf.addBeans(beanDef);
+		}
+	}
+
+	/**
 	 *  扫描包
 	 * @param path
 	 * @throws IOException
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	public void doScan(String path) throws IOException {
+	public void doScan(String path) throws IOException, InstantiationException, IllegalAccessException {
 		String[] paths = path.split(";");
 		for (String p : paths) {
 			log.info("start scan path " + p);
 			resourcePR.getResources(p);
 			initCandidateComponents(p);
+		
 			log.info("end scan path " + p);
+		}
+		createCandidateComponents();
+	}
+
+	private void createCandidateComponents() throws InstantiationException, IllegalAccessException {
+		for (AnnotationTypeFilter tf : includeFilters) 
+		{
+			List<GenericBeanDefinition> beans= tf.getGenericBeans();
+			
+			for(GenericBeanDefinition beanDef:beans)
+			{
+				beanDef.setBeanClass(beanDef.getLoadClass().newInstance());
+				ApplicationContext.getInstance().addBean(beanDef);
+			}
 		}
 	}
 
