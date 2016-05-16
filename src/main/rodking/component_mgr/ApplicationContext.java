@@ -14,6 +14,7 @@ import rodking.component_mgr.config.GenericBeanDefinition;
 /**
  * 应用容器
  * <p>
+ * 
  * @author rodking
  * @version 1.0
  */
@@ -21,6 +22,7 @@ public class ApplicationContext {
 	final Logger log = Logger.getLogger(ApplicationContext.class);
 	private Map<String, GenericBeanDefinition> contexts = new HashMap<String, GenericBeanDefinition>();
 	private static ApplicationContext instance = new ApplicationContext();
+	private GenericBeanDefinition bean;
 
 	/**
 	 * app content 容器单例对象
@@ -34,11 +36,12 @@ public class ApplicationContext {
 	}
 
 	/**
-	 * 向容器中添加  bean
+	 * 向容器中添加 bean
 	 * <p>
 	 * 如果 bean 在容器中已经存在,就会覆盖以前有的bean
 	 * 
-	 * @param bean 将要添加的bean
+	 * @param bean
+	 *            将要添加的bean
 	 */
 	public void addBean(GenericBeanDefinition bean) {
 		if (contexts.containsKey(bean.getSimpleName()))
@@ -48,15 +51,15 @@ public class ApplicationContext {
 	}
 
 	/**
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void init() throws Exception {
 		log.info("start load bean in appcontext ...");
 		ClassPathBeanScanner t = new ClassPathBeanScanner();
 		// TODO 每个包单点加测试
-		t.doScan("rodking/util/;rodking/server/;rodking/core/;rodking/logic/;rodking/config/");
+		// t.doScan("rodking/util/;rodking/server/;rodking/core/;rodking/logic/;rodking/config/;rodking/game/");
 		// TODO 遍历所有包
-		// t.doScan("rodking/");
+		t.doScan("rodking/");
 		log.info("start IOC all fields...");
 		for (GenericBeanDefinition bean : contexts.values()) {
 			Field[] fields = bean.getDeclaredFields();
@@ -81,21 +84,26 @@ public class ApplicationContext {
 	/**
 	 * 通过类名获得 bean
 	 * 
-	 * @param type 类型
+	 * @param <T>
+	 * 
+	 * @param type
+	 *            类型
 	 * @return
 	 */
-	public Object getBeanOfType(Class<?> type) {
+	@SuppressWarnings("unchecked")
+	public <T> T getBeanOfType(Class<T> type) {
 		String key = type.getSimpleName();
-		GenericBeanDefinition bean = contexts.get(key);
+		bean = contexts.get(key);
 		if (null != bean)
-			return bean.getBeanClass();
+			return (T) bean.getBeanClass();
 		return null;
 	}
 
 	/**
 	 * 通过父类得到所有继承或者实现该父类接口的标签类
 	 * 
-	 * @param fatherType 父类类型  
+	 * @param fatherType
+	 *            父类类型
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -111,9 +119,10 @@ public class ApplicationContext {
 	}
 
 	/**
-	 * 获得所有带  annotationType 注释的 beans
+	 * 获得所有带 annotationType 注释的 beans
 	 * 
-	 * @param annotationType 注释类型
+	 * @param annotationType
+	 *            注释类型
 	 * @return
 	 */
 	public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
