@@ -125,12 +125,13 @@ public class ApplicationContext {
 	 *            注释类型
 	 * @return
 	 */
-	public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	@SuppressWarnings("unchecked")
+	public <T> Map<String, T> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
+		Map<String, T> map = new HashMap<String, T>();
 		for (GenericBeanDefinition bean : contexts.values()) {
 			// 判断 bean 是否带有 annotationType 这个注释
 			if (bean.getLoadClass().isAnnotationPresent(annotationType)) {
-				map.put(bean.getSimpleName(), bean.getBeanClass());
+				map.put(bean.getSimpleName(), (T) bean.getBeanClass());
 			}
 		}
 		return map;
